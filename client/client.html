@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+
+    // Display the Pokemon List
+    function displayPokemonList(pokemonList) {
+        const content = document.getElementById('pokemonList');
+        content.innerHTML = '';
+
+        // If the result is not an array, make it an array with one item
+        if (!Array.isArray(pokemonList)) {
+            pokemonList = [pokemonList]; // Wrap the single pokemon in an array
+        }
+
+        // If the array is empty, return early
+        if (pokemonList.length == 0) {
+            return;
+        }
+
+        // Create a div for every pokemon in the list
+        for(let i = 0; i < pokemonList.length; i++) {
+
+            // If it is missing values (empty or not a pokemon)
+            if (!pokemonList[i].name || !pokemonList[i].type || !pokemonList[i].img) {
+                return;
+            }
+
+            const pokemon = pokemonList[i];
+
+            const pokeDiv = document.createElement('div');
+            pokeDiv.classList.add('pokemon-item');
+
+            // Pokemon name
+            const pokeName = document.createElement('span');
+            pokeName.classList.add('pokemon-name');
+            pokeName.textContent = pokemon.name;
+
+            // Pokemon type
+            const pokeType = document.createElement('span');
+            pokeType.classList.add('pokemon-type');
+            pokeType.textContent = `Type: ${pokemon.type.join(', ')}`;
+
+            // Pokemon image
+            const pokeImage = document.createElement('img');
+            pokeImage.src = pokemon.img; 
+            pokeImage.alt = pokemon.name;
+
+            // Add elements to div
+            pokeDiv.appendChild(pokeName);
+            pokeDiv.appendChild(pokeType);
+            pokeDiv.appendChild(pokeImage);
+
+            content.appendChild(pokeDiv);
+        }
+    };
+
+    // Search by Pokemon Type
+    function filterByType() {
+        const type = document.getElementById('pokemonType').value;
+        fetch(`http://localhost:3000/type?type=${encodeURIComponent(type)}`) // Get the type from the url
+            .then(response => response.json()) // Parse JSON
+            .then(data => displayPokemonList(data)) // Call displayPokemonList
+            .catch(error => console.error('Error fetching Pokémon:', error));
+    };
+
+    // Search by Pokemon Name
+    function searchByName() {
+        const name = document.getElementById('pokemonName').value;
+        fetch(`http://localhost:3000/name?name=${encodeURIComponent(name)}`) // Get the name from the url
+            .then(response => response.json()) // Parse JSON
+            .then(data => displayPokemonList(data)) // Call displayPokemonList
+            .catch(error => console.error('Error fetching Pokémon:', error));
+    };
+
+    // Get Random Pokemon
+    function getRandomPokemon() {
+        const numRandomPokemon = document.getElementById('numRandomPokemon').value;
+        fetch(`http://localhost:3000/random?numPokemon=${numRandomPokemon}`) // Get the number from the url
+            .then(response => response.json()) // Parse JSON
+            .then(data => displayPokemonList(data)) // Call displayPokemonList
+            .catch(error => console.error('Error fetching Pokémon:', error));
+    };
+
+    // Get all Final Evolutions
+    function getFinalEvolutions() {
+        fetch(`http://localhost:3000/finalStageEvolution`) // Get the number from the url
+            .then(response => response.json()) // Parse JSON
+            .then(data => displayPokemonList(data)) // Call displayPokemonList
+            .catch(error => console.error('Error fetching Pokémon:', error));
+    };
+
+    // Get all Pokemon
+    function getAllPokemon() {
+        fetch(`http://localhost:3000/allPokemon`) // Get the number from the url
+            .then(response => response.json()) // Parse JSON
+            .then(data => displayPokemonList(data)) // Call displayPokemonList
+            .catch(error => console.error('Error fetching Pokémon:', error));
+    };
+
+    </script>
+</head>
+<body>
+    <!-- <h1>Pokédex API</h1> -->
+
+    <!-- Search for pokemon by name -->
+    <label for="pokemonName">Search Pokémon by Name:</label>
+    <input type="text" id="pokemonName">
+    <button onclick="searchByName()">Search</button>
+
+    <br><br>
+
+    <!-- Filter pokemon by type -->
+    <label for="pokemonType">Filter by Type:</label>
+    <select id="pokemonType">
+        <option value="fire">Fire</option>
+        <option value="water">Water</option>
+        <option value="grass">Grass</option>
+        <option value="electric">Electric</option>
+        <option value="normal">Normal</option>
+        <option value="fighting">Fighting</option>
+        <option value="flying">Flying</option>
+        <option value="poison">Poison</option>
+        <option value="ground">Ground</option>
+        <option value="rock">Rock</option>
+        <option value="bug">Bug</option>
+        <option value="ghost">Ghost</option>
+        <option value="psychic">Psychic</option>
+        <option value="ice">Ice</option>
+        <option value="dragon">Dragon</option>
+    </select>
+    <button onclick="filterByType()">Filter</button>
+
+    <br><br>
+
+    <!-- Get random pokemon -->
+    <label for="numRandomPokemon">Number of Random Pokémon:</label>
+    <input type="text" id="numRandomPokemon">
+    <button onclick="getRandomPokemon()">Get Random Pokémon</button>
+
+    <br><br>
+
+    <!-- Get All Final Evolutions -->
+    <button onclick="getFinalEvolutions()">Get All Final Evolutions</button>
+
+    <br><br>
+
+    <!-- Button to get all pokemon -->
+    <button onclick="getAllPokemon()">View All Pokémon</button>
+
+    <br><br>
+
+    <!-- Pokémon Display Section -->
+    <h2>Pokémon List</h2>
+    <div id="pokemonList" class="pokemon-container"></div>
+
+
+    <!-- Form to Add a Pokémon -->
+    <!-- <h2>Add a New Pokémon</h2>
+    <form onsubmit="addPokemon(event)">
+        <label for="newPokemonName">Name:</label>
+        <input type="text" id="newPokemonName" required>
+        
+        <label for="newPokemonType">Type:</label>
+        <input type="text" id="newPokemonType" required>
+
+        <button type="submit">Add Pokémon</button>
+    </form> -->
+
+    <!-- Form to Edit a Pokémon -->
+    <!-- <h2>Edit a Pokémon</h2>
+    <form onsubmit="editPokemon(event)">
+        <label for="editPokemonName">Existing Pokémon Name:</label>
+        <input type="text" id="editPokemonName" required>
+        
+        <label for="newType">New Type:</label>
+        <input type="text" id="newType" required>
+
+        <button type="submit">Edit Pokémon</button>
+    </form> -->
+
+    <!-- Response Display -->
+    <!-- <h2>API Response</h2>
+    <pre id="response"></pre> -->
+
+</body>
+</html>

@@ -25,21 +25,21 @@ const getName = (request, response) => {
     // If there is no pokemon name
     if (!name) {
         respond(response, 400, { error: 'Name parameter required' });
+        return;
     }
 
     // Find the pokemon with the name
-    const pokemon = pokedex.find((pokedex) => pokedex.name === name);
+    const pokemon = pokedex.find((pokedex) => pokedex.name.toLowerCase() == name.toLowerCase());
     if (pokemon) {
         respond(response, 200, pokemon);
+        return;
     }
 
     // If the pokemon is not found, return an error
     else {
-        respond(response, 204, { error: 'Pokemon not found' });
-
+        respond(response, 404, { error: 'Pokemon not found' });
+        return;
     }
-
-
 };
 
 // Get all pokemon of a specific type
@@ -51,13 +51,15 @@ const getType = (request, response) => {
     // If no type is selected
     if (!type) {
         respond(response, 400, { error: 'Type parameter required' });
+        return;
     }
 
-    const pokemon = pokedex.filter((pokedex) => pokedex.type.includes(type));
+    const pokemon = pokedex.filter((pokedex) => pokedex.type.some((t) => t.toLowerCase() == type.toLowerCase()));
 
     // If there are no pokemon of that type
     if (pokemon.length == 0) {
-       respond(response, 204, { error: 'No pokemon of that type found' });
+        respond(response, 404, { error: 'No pokemon of that type found' });
+        return;
     }
 
     // If pokemon of that type are found
@@ -79,6 +81,7 @@ const getRandomPokemon = (request, response) => {
     // If no number of pokemon is selected
     if (!numPokemon || numPokemon < 1 || numPokemon > pokedex.length) {
         respond(response, 400, { error: 'Number of Pokemon parameter required and must be between 1 and 151' });
+        return;
     } 
 
     // List of random pokemon being displayed
