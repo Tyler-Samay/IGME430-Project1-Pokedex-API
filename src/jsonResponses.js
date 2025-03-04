@@ -97,8 +97,93 @@ const getRandomPokemon = (request, response) => {
     respond(response, 200, randomPokemonList);
 };
 
+// 404 Not Found
 const notFound = (request, response) => {
     respond(response, 404, { error: 'Resource not found' });
 };
 
-module.exports = { getAllPokemon, getName, getType, getFinalStageEvolution, getRandomPokemon, notFound };
+// Add pokemon
+const addPokemon = (request, response) => {
+    let body = '';
+    
+    // Get data
+    request.on('data', chunk => {
+        body += chunk;
+    });
+
+    request.on('end', () => {
+        // Parse data
+        let newPokemon;
+
+        if (request.headers['content-type'] == 'application/json') {
+            newPokemon = JSON.parse(body);
+        } 
+        
+        else if (request.headers['content-type'] == 'application/x-www-form-urlencoded') {
+            newPokemon = Object.fromEntries(new URLSearchParams(body));
+        } 
+        
+        else {
+            respond(response, 400, { error: 'Unsupported Content-Type' });
+            return;
+        }
+
+        if (!newPokemon.name || newPokemon.type == "") {
+            respond(response, 400, { error: 'Invalid Pokémon data' });
+            return;
+        }
+
+        // Add pokémon to pokedex
+        pokedex.push(newPokemon);
+
+        respond(response, 201, { message: 'Pokémon added successfully', pokemon: newPokemon });
+    });
+};
+
+// Edit pokemon
+const editPokemon = (request, response) => {
+    let body = '';
+    
+    // Get data
+    request.on('data', chunk => {
+        body += chunk;
+    });
+
+    request.on('end', () => {
+        // Parse data
+        let updatedPokemon;
+        if (request.headers['content-type'] == 'application/json') {
+            updatedPokemon = JSON.parse(body);
+        } 
+        
+        else if (request.headers['content-type'] == 'application/x-www-form-urlencoded') {
+            updatedPokemon = Object.fromEntries(new URLSearchParams(body));
+        } 
+        
+        else {
+            respond(response, 400, { error: 'Unsupported Content-Type' });
+            return;
+        }
+
+        if (!updatedPokemon.name || updatedPokemon.type == "") {
+            respond(response, 400, { error: 'Both name and type are required' });
+            return;
+        }
+
+        // Find the pokémon to edit
+        const index = pokedex.findIndex(p => p.name.toLowerCase() == updatedPokemon.name.toLowerCase());
+
+        if (index == -1) {
+            respond(response, 404, { error: 'Pokémon not found' });
+            return;
+        }
+
+        // Update the pokémon
+        pokedex[index] = { ...pokedex[index], ...updatedPokemon };
+
+        respond(response, 200, { message: 'Pokémon updated successfully', pokemon: pokedex[index] });
+    });
+};
+
+
+module.exports = { getAllPokemon, getName, getType, getFinalStageEvolution, getRandomPokemon, notFound, addPokemon, editPokemon };

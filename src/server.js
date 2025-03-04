@@ -17,49 +17,67 @@ const onRequest = (request, response) => {
     // Add the query parameters to the request object (Ex: request.query.valid)
     request.query = Object.fromEntries(parsedUrl.searchParams);
 
-    if (request.method === 'HEAD') {
+    if (request.method == 'HEAD') {
         response.writeHead(200, { 'Content-Type': 'application/json' });
         response.write(JSON.stringify({ message: 'This is a head request' }));
         response.end();
         return;
     }
 
-    switch (parsedUrl.pathname) {
-        case '/':
-            htmlHandler.getIndex(request, response);
-            break;
+    if(request.method == 'GET') {
+        switch (parsedUrl.pathname) {
+            case '/':
+                htmlHandler.getIndex(request, response);
+                break;
 
-        case '/style.css':
-            htmlHandler.getCSS(request, response);
-            break;
+            case '/style.css':
+                htmlHandler.getCSS(request, response);
+                break;
 
-        case '/allPokemon':
-            jsonHandler.getAllPokemon(request, response);
-            break;
+            case '/allPokemon':
+                jsonHandler.getAllPokemon(request, response);
+                break;
 
-        case '/name':
-            jsonHandler.getName(request, response);
-            break;
+            case '/name':
+                jsonHandler.getName(request, response);
+                break;
 
-        case '/type':
-            jsonHandler.getType(request, response);
-            break;
+            case '/type':
+                jsonHandler.getType(request, response);
+                break;
 
-        case '/finalStageEvolution':
-            jsonHandler.getFinalStageEvolution(request, response);
-            break;
+            case '/finalStageEvolution':
+                jsonHandler.getFinalStageEvolution(request, response);
+                break;
 
-        case '/random':
-            jsonHandler.getRandomPokemon(request, response);
-            break;
+            case '/random':
+                jsonHandler.getRandomPokemon(request, response);
+                break;
 
-        case '/notFound':
-            jsonHandler.notFound(request, response);
-            break;
+            case '/notFound':
+                jsonHandler.notFound(request, response);
+                break;
 
-        default:
-            jsonHandler.notFound(request, response);
-            break;
+            default:
+                jsonHandler.notFound(request, response);
+                break;
+        }
+    }
+
+    if(request.method == 'POST') {
+        switch (parsedUrl.pathname) {
+            case '/addPokemon':
+                    jsonHandler.addPokemon(request, response);
+                break;
+
+            case '/editPokemon':
+                    jsonHandler.editPokemon(request, response);
+                break;
+
+            default:
+                jsonHandler.notFound(request, response);
+                break;
+        }
     }
 };
 
