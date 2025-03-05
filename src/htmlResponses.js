@@ -32,6 +32,6 @@ const getDocumentation = (request, response) => {
   });
   response.write(documentation);
   response.end();
-}
+};
 
 module.exports = { getIndex, getCSS, getDocumentation };

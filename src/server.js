@@ -1,6 +1,4 @@
 const http = require('http');
-const fs = require('fs');
-const path = require('path');
 
 const htmlHandler = require('./htmlResponses.js');
 const jsonHandler = require('./jsonResponses.js');
@@ -133,8 +131,7 @@ const onRequest = (request, response) => {
         break;
     }
   }
-}
-
+};
 
 http.createServer(onRequest).listen(port);
 
