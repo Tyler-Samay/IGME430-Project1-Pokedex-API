@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Documentation</title>
+</head>
+<body>
+  <p>This API uses the pokdex.json that contains information about the original 151 Pokemon, such as their types, weaknesses, evolutions, etc. At the default URL, the API will get and display all the Pokemon on the home page (displaying their name, pokedex number, and picture). There will be different fields like text boxes and drop-down menus that will allow the users to search for different endpoints.</p>
+
+  <p>Endpoints:</p>
+
+  <p>/: This is the default endpoint that takes you to the main page</p>
+  <p>Methods:</p>
+  <p>getIndex: gets the index page</p>
+
+  <p>/style.css: This endpoint takes you to css used for the website</p>
+  <p>Methods:</p>
+  <p>getCSS: gets the css</p>
+
+  <p>/allPokemon: This endpoint takes you to the page that displays the information of all pokemon</p>
+  <p>Methods:</p>
+  <p>getAllPokemon: gets all pokemon</p>
+  <p>Returns: an array</p>
+  <p>GET Request</p>
+
+  <p>/name: This endpoint will take you to a page that displays all of the Pokémon information of the specified name</p>
+  <p>Methods:</p>
+  <p>getName: gets the name of a specified pokemon</p>
+  <p>Returns: string</p>
+  <p>GET Request</p>
+  <p>Body Parameters: Required. (Ex. /name?name=Pikachu)</p>
+
+  <p>/type: This endpoint will take you to a page that displays all Pokémon of a designated type</p>
+  <p>Methods:</p>
+  <p>getType: gets all the pokemon of a specified type</p>
+  <p>Returns: an array</p>
+  <p>GET Request</p>
+  <p>Body Parameters: Optional. Gets all pokemon without specified parameters, but parameters are needed to get all pokemon of a certain type (Ex. /type?type=Fire)</p>
+
+  <p>/finalStageEvolution: This endpoint will take you to a page that displays all Pokémon that are fully evolved (Either last in the evolution stage or have no evolutions)</p>
+  <p>Methods:</p>
+  <p>getFinalStageEvolution: get all pokemon that can not evolve</p>
+  <p>Returns: an array</p>
+  <p>GET Request</p>
+
+  <p>/random: This endpoint will take you to a page that displays specified amount of random Pokémon’s information</p>
+  <p>Methods:</p>
+  <p>getRandomPokemon: get a specified amount of random pokemon</p>
+  <p>Returns: an array</p>
+  <p>GET Request</p>
+  <p>Body Parameters: Required. (Ex. /random?numPokemon=3)</p>
+
+  <p>/notFound: This endpoint takes you to an error page</p>
+  <p>Methods:</p>
+  <p>notFound: responds with 404 error</p>
+  <p>GET Request</p>
+
+  <p>/addPokemon: This endpoint is used to add a pokemon and its information</p>
+  <p>Methods:</p>
+  <p>addPokemon: Create a new pokemon with a name and type</p>
+  <p>POST Request</p>
+  <p>Returns: JSON of object created</p>
+
+  <p>/editPokemon: This endpoint is used to edit a pokemon type</p>
+  <p>Methods:</p>
+  <p>editPokemon: Changes an already existing pokemon’s type</p>
+  <p>POST Request</p>
+  <p>Returns: JSON of object edited</p>
+
+  <p>Work completed:</p>
+  <p>Right now I have a basic layout for the different end points and what I want each one to do/information to get. I have mostly just laid the groundwork so I need to actually do some testing and fully implement everything.</p>
+
+  <p>To do:</p>
+  <p>I need to make my actual html and css file to organize the page and its information. As stated before I also need to fully implement and test my endpoints, as well as calling the proper function and getting URLs when certain buttons are pressed and certain fields are filled, as well as accounting for different status error codes.</p>
+
+  <p>Above and beyond:</p>
+  <p>I might be planning to have different html files for different pages. I will want the home page to just display a list of all pokemon and their number name type and picture, but when going to a page to view a specific pokemon, I will want all of its information to be displayed (like its evolutions, weight, height, etc). I am not sure if doing this and having a different styling for a new page will be going above and beyond though.</p>
+
+  <p>Borrowed code:</p>
+  <p>I have been trying to have similar file, function, and variable naming conventions like the ones used in class. If this is supposed to be accounted for borrowed code then these naming conventions and structured functions are from class.</p>
+</body>
+</html>

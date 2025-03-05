@@ -1,4 +1,6 @@
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
 
 const htmlHandler = require('./htmlResponses.js');
 const jsonHandler = require('./jsonResponses.js');
@@ -15,17 +17,70 @@ const onRequest = (request, response) => {
   // Add the query parameters to the request object (Ex: request.query.valid)
   request.query = Object.fromEntries(parsedUrl.searchParams);
 
+  // HEAD requests
   if (request.method === 'HEAD') {
-    response.writeHead(200, { 'Content-Type': 'application/json' });
-    response.write(JSON.stringify({ message: 'This is a head request' }));
-    response.end();
-    return;
+    switch (parsedUrl.pathname) {
+      case '/':
+        response.writeHead(200, { 'Content-Type': 'text/html' });
+        response.end();
+        break;
+
+      case '/documentation':
+        response.writeHead(200, { 'Content-Type': 'text/html' });
+        response.end();
+        break;
+
+      case '/style.css':
+        response.writeHead(200, { 'Content-Type': 'text/css' });
+        response.end();
+        break;
+
+      case '/allPokemon':
+        response.writeHead(200, { 'Content-Type': 'application/json' });
+        response.end();
+        break;
+
+      case '/name':
+        response.writeHead(200, { 'Content-Type': 'application/json' });
+        response.end();
+        break;
+
+      case '/type':
+        response.writeHead(200, { 'Content-Type': 'application/json' });
+        response.end();
+        break;
+
+      case '/finalStageEvolution':
+        response.writeHead(200, { 'Content-Type': 'application/json' });
+        response.end();
+        break;
+
+      case '/random':
+        response.writeHead(200, { 'Content-Type': 'application/json' });
+        response.end();
+        break;
+
+      case '/notFound':
+        response.writeHead(404, { 'Content-Type': 'application/json' });
+        response.end();
+        break;
+
+      default:
+        response.writeHead(404, { 'Content-Type': 'application/json' });
+        response.end();
+        break;
+    }
   }
 
+  // GET requests
   if (request.method === 'GET') {
     switch (parsedUrl.pathname) {
       case '/':
         htmlHandler.getIndex(request, response);
+        break;
+
+      case '/documentation':
+        htmlHandler.getDocumentation(request, response);
         break;
 
       case '/style.css':
@@ -62,6 +117,7 @@ const onRequest = (request, response) => {
     }
   }
 
+  // POST requests
   if (request.method === 'POST') {
     switch (parsedUrl.pathname) {
       case '/addPokemon':
@@ -77,7 +133,8 @@ const onRequest = (request, response) => {
         break;
     }
   }
-};
+}
+
 
 http.createServer(onRequest).listen(port);
 
