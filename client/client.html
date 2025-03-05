@@ -62,7 +62,7 @@
     // Search by Pokemon Type
     function filterByType() {
         const type = document.getElementById('pokemonType').value;
-        fetch(`http://localhost:3000/type?type=${encodeURIComponent(type)}`, {
+        fetch(`/type?type=${encodeURIComponent(type)}`, {
         headers: {
             'Accept': 'application/json',
             }
@@ -75,7 +75,7 @@
     // Search by Pokemon Name
     function searchByName() {
         const name = document.getElementById('pokemonName').value;
-        fetch(`http://localhost:3000/name?name=${encodeURIComponent(name)}`, {
+        fetch(`/name?name=${encodeURIComponent(name)}`, {
         headers: {
             'Accept': 'application/json',
             }
@@ -88,7 +88,7 @@
     // Get Random Pokemon
     function getRandomPokemon() {
         const numRandomPokemon = document.getElementById('numRandomPokemon').value;
-        fetch(`http://localhost:3000/random?numPokemon=${numRandomPokemon}`, {
+        fetch(`/random?numPokemon=${numRandomPokemon}`, {
         headers: {
             'Accept': 'application/json',
             }
@@ -100,7 +100,7 @@
 
     // Get all Final Evolutions
     function getFinalEvolutions() {
-        fetch(`http://localhost:3000/finalStageEvolution`, {
+        fetch(`/finalStageEvolution`, {
         headers: {
             'Accept': 'application/json',
             }
@@ -112,7 +112,7 @@
 
     // Get all Pokemon
     function getAllPokemon() {
-        fetch(`http://localhost:3000/allPokemon`, {
+        fetch(`/allPokemon`, {
         headers: {
             'Accept': 'application/json',
             }
@@ -134,7 +134,7 @@
         };
 
         // Send the POST request
-        fetch('http://localhost:3000/addPokemon', {
+        fetch('/addPokemon', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -160,7 +160,7 @@
         };
 
         // Send the POST request
-        fetch('http://localhost:3000/editPokemon', {
+        fetch('/editPokemon', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
